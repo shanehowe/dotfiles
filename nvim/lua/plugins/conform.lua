@@ -17,8 +17,15 @@ return {
       json       = { "prettier" },
       yaml       = { "prettier" },
       markdown   = { "prettier" },
+      java       = { "palantir" },
+      rust = { "rustfmt", lsp_format = "fallback" },
     },
-    -- Fall back to LSP formatting if no formatter is configured for the filetype
-    default_format_opts = { lsp_format = "fallback" },
+    formatters = {
+      palantir = {
+        command = vim.fn.expand("~/.local/share/java-formatters/palantir-java-format"),
+        args = { "--palantir", "-" },
+        stdin = true,
+      },
+    },
   },
 }
