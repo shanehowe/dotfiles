@@ -4,6 +4,7 @@ return {
 	opts = {
 		keymap = {
 			preset = "super-tab", -- Tab accepts completion, Shift-Tab moves backward
+			["<CR>"] = { "accept", "fallback" },
 			["<Up>"] = { "select_prev", "fallback" },
 			["<Down>"] = { "select_next", "fallback" },
 		},
