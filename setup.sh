@@ -130,9 +130,11 @@ main() {
     if [ "$os" = "macos" ]; then
         ensure_installed nvim  neovim "$os"
         ensure_installed tmux  tmux   "$os"
+        ensure_installed fzf   fzf    "$os"
     else
         install_neovim_linux
         ensure_installed tmux tmux "$os"
+        ensure_installed fzf  fzf  "$os"
     fi
 
     setup_symlinks
