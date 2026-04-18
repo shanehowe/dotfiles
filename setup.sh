@@ -86,6 +86,35 @@ ensure_installed() {
     success "$cmd installed"
 }
 
+# Compare two semver strings; returns 0 if $1 >= $2
+version_gte() {
+    printf '%s\n%s\n' "$2" "$1" | sort -V -C
+}
+
+ensure_fzf() {
+    local min_version="0.36.0"
+    local os="$1"
+
+    if command_exists fzf; then
+        local installed
+        installed="$(fzf --version | awk '{print $1}')"
+        if version_gte "$installed" "$min_version"; then
+            success "fzf $installed is already installed (>= $min_version)"
+            return
+        fi
+        warn "fzf $installed is below minimum $min_version — upgrading..."
+    else
+        info "fzf not found — installing..."
+    fi
+
+    if [ "$os" = "macos" ]; then
+        install_for_macos fzf
+    else
+        install_for_linux fzf
+    fi
+    success "fzf installed/upgraded"
+}
+
 # ── Neovim: Linux needs the AppImage or snap because distro packages are old ──
 
 install_neovim_linux() {
@@ -130,11 +159,11 @@ main() {
     if [ "$os" = "macos" ]; then
         ensure_installed nvim  neovim "$os"
         ensure_installed tmux  tmux   "$os"
-        ensure_installed fzf   fzf    "$os"
+        ensure_fzf "$os"
     else
         install_neovim_linux
         ensure_installed tmux tmux "$os"
-        ensure_installed fzf  fzf  "$os"
+        ensure_fzf "$os"
     fi
 
     setup_symlinks
