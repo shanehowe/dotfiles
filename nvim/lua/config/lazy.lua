@@ -24,6 +24,9 @@ vim.g.maplocalleader = "\\"
 vim.opt.relativenumber = true
 vim.opt.clipboard = "unnamedplus"
 
+-- Option+3 on macOS sends <M-3> instead of #
+vim.keymap.set("i", "<M-3>", "#")
+
 -- Prevent <Space> from moving cursor in visual mode (so which-key can use it as leader)
 vim.keymap.set("v", "<Space>", "<Nop>", { silent = true })
 
